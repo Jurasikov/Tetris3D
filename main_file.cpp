@@ -28,7 +28,8 @@
 	#include "lodepng.h"
 	#include "shaderprogram.h"
 	#include <iostream>
-
+	#include <time.h>
+	#include <math.h>
 	float speed = 0;//[radians/s]
 
 	float camera_speed = 0;
@@ -55,22 +56,30 @@
 		float angle = 0.0f;
 		float angle_z = 0.0f;
 		int czy_istnieje = 0;
+		int ilosc;
 		int rodzaj;    // 1 = I,  2 = T, 3 = cube, 4 = L
-	
-		float gravity = -0.01f;
+
+		float gravity = -0.02f;
 
 		void zapelnij(){
 			for (int i = 0; i < 30; i++) {
 				pos_x[i] = 0.0f;
-				pos_y[i] = 4.0f;
+				pos_y[i] = 6.0f;
 				pos_z[i] = 0.0f;
+				rodzaj = 1 + (std::rand()%(4));
+
 			}
 		}
 	}klocki[1000];
 
+float odleglosc(float x1, float x2, float y1, float y2, float z1, float z2){
 
 
-	//Procedura obs³ugi klawiatury
+
+	return sqrt(pow(x1-x2,2)+pow(y1-y2,2)+pow(z1-z2,2));
+}
+
+	//Procedura obsï¿½ugi klawiatury
 	void key_callback(GLFWwindow* window, int key,
 		int scancode, int action, int mods) {
 
@@ -184,7 +193,9 @@
 		if (k == 2) glUniform4f(spLambert->u("color"), 0, 0, 1, 1);
 		if (k == 4) glUniform4f(spLambert->u("color"), 1, 0, 0, 1);
 		Models::cube.drawSolid();
+		klocki[i].pos_x[j] = Mk[3].x;
 		klocki[i].pos_y[j] = Mk[3].y;
+		klocki[i].pos_z[j] = Mk[3].z;
 		return Mk;
 	}
 
@@ -200,7 +211,9 @@
 		if (k == 2) glUniform4f(spLambert->u("color"), 0, 0, 1, 1);
 		if (k == 4) glUniform4f(spLambert->u("color"), 1, 0, 0, 1);
 		Models::cube.drawSolid();
+		klocki[i].pos_x[j] = Mk[3].x;
 		klocki[i].pos_y[j] = Mk[3].y;
+		klocki[i].pos_z[j] = Mk[3].z;
 		return Mk;
 	}
 
@@ -216,12 +229,31 @@
 	}
 
 
+int kolizja(klocek a, klocek b){
+	using namespace std;
+	for (int i = 0; i<a.ilosc;i++){
+		for (int j = 0; j<b.ilosc; j++){
+			//cout<<odleglosc(a.pos_x[i],b.pos_x[j],a.pos_y[i],b.pos_y[j],a.pos_z[i],b.pos_z[j])<<endl;
+			if (odleglosc(a.pos_x[i],b.pos_x[j],a.pos_y[i],b.pos_y[j],a.pos_z[i],b.pos_z[j]) < 1){
+
+				cout<<"KOLIZJA!"<<endl<<endl<<endl;
+				cout<<i<<" "<<j<<endl;
+				cout<<(odleglosc(a.pos_x[i],b.pos_x[j],a.pos_y[i],b.pos_y[j],a.pos_z[i],b.pos_z[j]))<<endl;
+				return 1;
+			}
+		}
+	}
+	return 0;
+}
+
+
+
 
 
 	glm::mat4 drawTop(glm::mat4 Mt, float angleDelta, int k,int i, int j) {
 
-	
-		
+
+
 		//Cube model matrix is composed of: rotation, to choose place of the cube on the edge of the torus
 		glm::mat4 Mk = glm::rotate(Mt, glm::radians(angleDelta), glm::vec3(0.0f, 0.0f, 1.0f));
 		//...translation, to move the cube to the edge...
@@ -233,7 +265,9 @@
 		if (k == 2) glUniform4f(spLambert->u("color"), 0, 0, 1, 1);
 		if (k == 4) glUniform4f(spLambert->u("color"), 1, 0, 0, 1);
 		Models::cube.drawSolid();
+		klocki[i].pos_x[j] = Mk[3].x;
 		klocki[i].pos_y[j] = Mk[3].y;
+		klocki[i].pos_z[j] = Mk[3].z;
 		return Mk;
 	}
 
@@ -253,7 +287,9 @@
 		if (k == 2) glUniform4f(spLambert->u("color"), 0, 0, 1, 1);
 		if (k == 4) glUniform4f(spLambert->u("color"), 1, 0, 0, 1);
 		Models::cube.drawSolid();
+		klocki[i].pos_x[j] = Mk[3].x;
 		klocki[i].pos_y[j] = Mk[3].y;
+		klocki[i].pos_z[j] = Mk[3].z;
 		return Mk;
 	}
 
@@ -270,7 +306,9 @@
 		if (k == 2) glUniform4f(spLambert->u("color"), 0, 0, 1, 1);
 		if (k == 4) glUniform4f(spLambert->u("color"), 1, 0, 0, 1);
 		Models::cube.drawSolid();
+		klocki[i].pos_x[j] = Mk[3].x;
 		klocki[i].pos_y[j] = Mk[3].y;
+		klocki[i].pos_z[j] = Mk[3].z;
 		return Mk;
 
 	}
@@ -288,7 +326,9 @@
 		if (k == 2) glUniform4f(spLambert->u("color"), 0, 0, 1, 1);
 		if (k == 4) glUniform4f(spLambert->u("color"), 1, 0, 0, 1);
 
+		klocki[i].pos_x[j] = Mk[3].x;
 		klocki[i].pos_y[j] = Mk[3].y;
+		klocki[i].pos_z[j] = Mk[3].z;
 		Models::cube.drawSolid();
 		return Mk;
 	}
@@ -298,22 +338,52 @@
 
 		using namespace std;
 		glm::mat4 I = glm::mat4(1.0f);
-
 		float grav = gravity;
 		int j = 0;
-		float pos = klocki[i].pos_y[0] + klocki[i].gravity;
-		klocki[i].rodzaj = 1;
-		if (pos <= -4.0f) {
-
-			klocki[i].czy_stop = 1;
-			pos = -4.0f;
-
+		float pos;
+		if (klocki[i].czy_stop == 0){
+		pos = klocki[i].pos_y[0] + klocki[i].gravity;}
+		else{
+			pos = klocki[i].pos_y[0];
 		}
+		klocki[i].rodzaj =1;
+
+		int s=0;
+
+		while (klocki[s].czy_istnieje==1 && klocki[i].czy_stop==0){
+			if (s!=i){
+			if (kolizja(klocki[i],klocki[s])==1){
+				//cout<<s<<" "<<i<<endl;
+				for (int m = 0; m<6; m++){
+					cout<<klocki[i].pos_x[m]<<" "<<klocki[i].pos_y[m]<<" "<<klocki[i].pos_z[m]<<endl;
+				}
+				cout<<endl;
+				for (int m = 0; m<klocki[i].ilosc; m++){
+					cout<<klocki[s].pos_x[m]<<" "<<klocki[s].pos_y[m]<<" "<<klocki[s].pos_z[m]<<endl;
+				}
+				cout<<"KOLIZJA2!"<<endl<<endl<<endl;
+				klocki[i].czy_stop = 1;
+
+			}
+		}
+		//cout<<s<<endl;
+		s++;
+	}
+
+	for (int z=0 ;z<klocki[i].ilosc;z++){
+
+
+		if (klocki[i].pos_y[z] <= -4.0f) {
+
+		klocki[i].czy_stop = 1;
+	}
+	}
+
 		glm::mat4 Mt1 = glm::translate(I, glm::vec3(klocki[i].pos_x[0], pos, klocki[i].pos_z[0]));
-	
-		if (klocki[i].czy_stop == 0) {
-			Mt1 = glm::rotate(Mt1, angle, glm::vec3(0.0f, 0.0f, 1.0f));
-		}
+
+		Mt1 = glm::rotate(Mt1, klocki[i].angle, glm::vec3(0.0f, 0.0f, 1.0f));
+		Mt1 = rotate(Mt1, klocki[i].angle_z, glm::vec3(1.0f, 0.0f, 0.0f));
+
 		Mt1 = glm::scale(Mt1, glm::vec3(0.5f, 0.5f, 0.5f));
 
 		glm::mat4 Mk = Mt1;
@@ -322,10 +392,11 @@
 		if (k == 2) glUniform4f(spLambert->u("color"), 0, 0, 1, 1);
 		if (k == 4) glUniform4f(spLambert->u("color"), 1, 0, 0, 1);
 		Models::cube.drawSolid();
-		klocki[i].pos_y[j] = Mk[3].y;
+		klocki[i].ilosc = 5;
+		klocki[i].pos_y[j] = pos;
 		j++;
 
-	
+
 		glm::mat4 Mk1 = drawLeft(Mk, angleDelta, k,i,j);
 		j++;
 		glm::mat4 Mk2 = drawRight(Mk, angleDelta, k,i,j);
@@ -334,7 +405,7 @@
 		j++;
 		glm::mat4 Mk4 = drawRight(Mk2, angleDelta, k,i,j);
 		j++;
-	
+
 	}
 
 
@@ -343,19 +414,49 @@
 		glm::mat4 I = glm::mat4(1.0f);
 		float grav = gravity;
 		int j = 0;
-		float pos = klocki[i].pos_y[3] + klocki[i].gravity;
-		klocki[i].rodzaj = 2;
-		if (pos <= -4.0f) {
+		float pos;
+		if (klocki[i].czy_stop == 0){
+		pos = klocki[i].pos_y[0] + klocki[i].gravity;}
+		else{
+			pos = klocki[i].pos_y[0];
+		}
+				klocki[i].rodzaj = 4;
+		klocki[i].ilosc = 5;
+		for (int z=0 ;z<klocki[i].ilosc;z++){
+
+
+			if (klocki[i].pos_y[z] <= -4.0f) {
 
 			klocki[i].czy_stop = 1;
-			pos = -4.0f;
-
+		}
 		}
 
+		int s=0;
+
+		while (klocki[s].czy_istnieje==1 && klocki[i].czy_stop==0){
+			if (s!=i){
+			if (kolizja(klocki[i],klocki[s])==1){
+				//cout<<s<<" "<<i<<endl;
+				for (int m = 0; m<6; m++){
+					cout<<klocki[i].pos_x[m]<<" "<<klocki[i].pos_y[m]<<" "<<klocki[i].pos_z[m]<<endl;
+				}
+				cout<<endl;
+				for (int m = 0; m<klocki[i].ilosc; m++){
+					cout<<klocki[s].pos_x[m]<<" "<<klocki[s].pos_y[m]<<" "<<klocki[s].pos_z[m]<<endl;
+				}
+				cout<<"KOLIZJA2!"<<endl<<endl<<endl;
+				klocki[i].czy_stop = 1;
+
+			}
+		}
+		//cout<<s<<endl;
+		s++;
+	}
 		glm::mat4 Mt1 = glm::translate(I, glm::vec3(klocki[i].pos_x[0], pos, klocki[i].pos_z[0]));
-		if (klocki[i].czy_stop == 0) {
-			Mt1 = glm::rotate(Mt1, angle, glm::vec3(0.0f, 0.0f, 1.0f));
-		}
+
+		Mt1 = glm::rotate(Mt1, klocki[i].angle, glm::vec3(0.0f, 0.0f, 1.0f));
+		Mt1 = rotate(Mt1, klocki[i].angle_z, glm::vec3(1.0f, 0.0f, 0.0f));
+
 		Mt1 = glm::scale(Mt1, glm::vec3(0.5f, 0.5f, 0.5f));
 
 		glm::mat4 Mk = Mt1;
@@ -364,7 +465,8 @@
 		if (k == 2) glUniform4f(spLambert->u("color"), 0, 0, 1, 1);
 		if (k == 4) glUniform4f(spLambert->u("color"), 1, 0, 0, 1);
 		Models::cube.drawSolid();
-		klocki[i].pos_y[j] = Mk[3].y;
+
+		klocki[i].pos_y[j] = pos;
 		j++;
 		glm::mat4 Mk1 = drawLeft(Mk, angleDelta, k,i,j);
 		j++;
@@ -374,7 +476,7 @@
 		j++;
 		glm::mat4 Mk4 = drawTop(Mk3, angleDelta,k,i,j);
 		j++;
-	
+
 	}
 
 	void drawT(float angle, float angleDelta, int k, float gravity, float position,int i) {
@@ -382,24 +484,52 @@
 		glm::mat4 I = glm::mat4(1.0f);
 		float grav = gravity;
 		int j = 0;
-		float pos = klocki[i].pos_y[0] + klocki[i].gravity;
+		float pos;
+		if (klocki[i].czy_stop == 0){
+		pos = klocki[i].pos_y[0] + klocki[i].gravity;}
+		else{
+			pos = klocki[i].pos_y[0];
+		}
 		klocki[i].rodzaj = 2;
-		if (pos <= -4.0f) {
+		klocki[i].ilosc = 6;
+		for (int z=0 ;z<klocki[i].ilosc;z++){
+
+
+			if (klocki[i].pos_y[z] <= -4.0f) {
 
 			klocki[i].czy_stop = 1;
-			pos = -4.0f;
-
 		}
+		}
+		int s=0;
 
+		while (klocki[s].czy_istnieje==1 && klocki[i].czy_stop==0){
+			if (s!=i){
+			if (kolizja(klocki[i],klocki[s])==1){
+				//cout<<s<<" "<<i<<endl;
+				for (int m = 0; m<6; m++){
+					cout<<klocki[i].pos_x[m]<<" "<<klocki[i].pos_y[m]<<" "<<klocki[i].pos_z[m]<<endl;
+				}
+				cout<<endl;
+				for (int m = 0; m<6; m++){
+					cout<<klocki[s].pos_x[m]<<" "<<klocki[s].pos_y[m]<<" "<<klocki[s].pos_z[m]<<endl;
+				}
+				cout<<"KOLIZJA2!"<<endl<<endl<<endl;
+				klocki[i].czy_stop = 1;
+
+			}
+		}
+		//cout<<s<<endl;
+		s++;
+	}
 
 
 		glm::mat4 Mt1 = glm::translate(I, glm::vec3(klocki[i].pos_x[0], pos, klocki[i].pos_z[0]));
-	
+
 		Mt1 = glm::rotate(Mt1, klocki[i].angle, glm::vec3(0.0f, 0.0f, 1.0f));
 		Mt1 = rotate(Mt1, klocki[i].angle_z, glm::vec3(1.0f, 0.0f, 0.0f));
 
 		Mt1 = glm::scale(Mt1, glm::vec3(0.5f, 0.5f, 0.5f));
-	
+
 
 		glm::mat4 Mk = Mt1;
 		glUniformMatrix4fv(spLambert->u("M"), 1, false, glm::value_ptr(Mk));
@@ -419,9 +549,9 @@
 		glm::mat4 Mk4 = drawBehind(Mk, angleDelta, k,i,j);
 		j++;
 		glm::mat4 Mk5 = drawInfront(Mk, angleDelta, k,i,j);
-	
-		cout << Mk2[3].x << " " << Mk2[3].y<<endl; //pozycja y
-		
+
+		//cout << Mk2[3].x << " " << Mk2[3].y<<" "<<Mk2[3].z<<endl; //pozycja y
+
 
 	}
 
@@ -431,19 +561,47 @@
 		glm::mat4 I = glm::mat4(1.0f);
 		float grav = gravity;
 		int j = 0;
-		float pos = klocki[i].pos_y[3] + klocki[i].gravity;
-		klocki[i].rodzaj = 2;
-		if (pos <= -4.0f) {
+		float pos;
+		if (klocki[i].czy_stop == 0){
+		pos = klocki[i].pos_y[0] + klocki[i].gravity;}
+		else{
+			pos = klocki[i].pos_y[0];
+		}
+		klocki[i].rodzaj = 3;
+		for (int z=0 ;z<klocki[i].ilosc;z++){
+
+
+			if (klocki[i].pos_y[z] <= -4.0f) {
 
 			klocki[i].czy_stop = 1;
-			pos = -4.0f;
-
 		}
-
-		glm::mat4 Mt1 = glm::translate(I, glm::vec3(0.0f, pos, 0.0f));
-		if (klocki[i].czy_stop == 0) {
-			Mt1 = glm::rotate(Mt1, angle, glm::vec3(0.0f, 0.0f, 1.0f));
 		}
+		int s=0;
+
+		while (klocki[s].czy_istnieje==1 && klocki[i].czy_stop==0){
+			if (s!=i){
+			if (kolizja(klocki[i],klocki[s])==1){
+				//cout<<s<<" "<<i<<endl;
+				for (int m = 0; m<klocki[i].ilosc; m++){
+					cout<<klocki[i].pos_x[m]<<" "<<klocki[i].pos_y[m]<<" "<<klocki[i].pos_z[m]<<endl;
+				}
+				cout<<endl;
+				for (int m = 0; m<6; m++){
+					cout<<klocki[s].pos_x[m]<<" "<<klocki[s].pos_y[m]<<" "<<klocki[s].pos_z[m]<<endl;
+				}
+				cout<<"KOLIZJA2!"<<endl<<endl<<endl;
+				klocki[i].czy_stop = 1;
+
+			}
+		}
+		//cout<<s<<endl;
+		s++;
+	}
+		glm::mat4 Mt1 = glm::translate(I, glm::vec3(klocki[i].pos_x[0], pos, klocki[i].pos_z[0]));
+
+		Mt1 = glm::rotate(Mt1, klocki[i].angle, glm::vec3(0.0f, 0.0f, 1.0f));
+		Mt1 = rotate(Mt1, klocki[i].angle_z, glm::vec3(1.0f, 0.0f, 0.0f));
+
 		Mt1 = glm::scale(Mt1, glm::vec3(0.5f, 0.5f, 0.5f));
 
 		glm::mat4 Mk = Mt1;
@@ -452,8 +610,8 @@
 		if (k == 2) glUniform4f(spLambert->u("color"), 0, 0, 1, 1);
 		if (k == 4) glUniform4f(spLambert->u("color"), 1, 0, 0, 1);
 		Models::cube.drawSolid();
-
-		klocki[i].pos_y[j] = Mk[3].y;
+		klocki[i].ilosc = 27;
+		klocki[i].pos_y[j] = pos;
 		j++;
 
 		glm::mat4 Mk1 = drawLeft(Mk, angleDelta, k, i, j);
@@ -525,7 +683,7 @@
 	//	//Straight1(Mt1, 0);
 	//
 	//	//drawStraight(Mt1, 0, 4);
-	//	
+	//
 	//	//drawT(Mt1, 0, 4);
 	//
 	//	drawKostka(Mt1, 0, 4);
@@ -544,25 +702,32 @@
 	void drawScene(GLFWwindow* window, float angle,float camera_angle, float camera_angle_x, float gravity) {
 		//************Place any code here that draws something inside the window******************l
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //Clear color and depth buffers
-
+		using namespace std;
 		glm::mat4 P = glm::perspective(glm::radians(50.0f), 1.0f, 1.0f, 50.0f); //Compute projection matrix
 		glm::mat4 V = glm::lookAt(glm::vec3(0.0f, 0.0f, -20.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)); //Compute view matrix
 		V = glm::rotate(V, camera_angle, glm::vec3(0.0f, 1.0f, 0.0f));
 		V = glm::rotate(V, camera_angle_x, glm::vec3(1.0f, 0.0f, 0.0f));
-		spLambert->use();//Aktywacja programu cieniuj¹cego
+		spLambert->use();//Aktywacja programu cieniujï¿½cego
 		glUniformMatrix4fv(spLambert->u("P"), 1, false, glm::value_ptr(P));
 		glUniformMatrix4fv(spLambert->u("V"), 1, false, glm::value_ptr(V));
 
 
 		int i = 0;
-		do {
+		while (klocki[i].czy_stop == 1) {
 			if (klocki[i].rodzaj == 2) drawT(angle, 0, 4, gravity, 4.0f, i);
 			if (klocki[i].rodzaj == 4) drawL(angle, 0, 4, gravity, 4.0f, i);
 			if (klocki[i].rodzaj == 1) drawStraight(angle, 0, 4, gravity, 4.0f, i);
+			if (klocki[i].rodzaj == 3) drawKostka(angle, 0, 4, gravity, 4.0f, i);
+			klocki[i].czy_istnieje = 1;
+			//cout<<klocki[i].rodzaj<<endl;
 			i++;
-		} while (klocki[i].czy_stop == 1);
+		}
 
-		drawT(angle, 0, 4, gravity,4.0f, i);
+		if (klocki[i].rodzaj == 2 && klocki[i].czy_stop == 0) drawT(angle, 0, 4, gravity, 4.0f, i);
+		if (klocki[i].rodzaj == 4 && klocki[i].czy_stop == 0) drawL(angle, 0, 4, gravity, 4.0f, i);
+		if (klocki[i].rodzaj == 1 && klocki[i].czy_stop == 0) drawStraight(angle, 0, 4, gravity, 4.0f, i);
+		if (klocki[i].rodzaj == 3 && klocki[i].czy_stop == 0) drawKostka(angle, 0, 4, gravity, 4.0f, i);
+		klocki[i].czy_istnieje = 1;
 
 
 		glfwSwapBuffers(window); //Copy back buffer to the front buffer
@@ -573,6 +738,9 @@
 
 	int main(void)
 	{
+		using namespace std;
+		cout<<odleglosc(0,0,-4,1.63,0,0)<<endl;
+		srand(time(NULL));
 		GLFWwindow* window; //Pointer to object that represents the application window
 		for (int i = 0; i < 1000; i++) {
 			klocki[i].zapelnij();
@@ -584,7 +752,7 @@
 			exit(EXIT_FAILURE);
 		}
 
-		window = glfwCreateWindow(500, 500, "OpenGL", NULL, NULL);  //Create a window 500pxx500px titled "OpenGL" and an OpenGL context associated with it. 
+		window = glfwCreateWindow(1000, 1000, "OpenGL", NULL, NULL);  //Create a window 500pxx500px titled "OpenGL" and an OpenGL context associated with it.
 
 		if (!window) //If no window is opened then close the program
 		{
@@ -611,7 +779,7 @@
 		glfwSetTime(0); //clear internal timer
 		while (!glfwWindowShouldClose(window)) //As long as the window shouldnt be closed yet...
 		{
-			angle = speed; // //Compute an angle by which the object was rotated during the previous frame		
+			angle = speed; // //Compute an angle by which the object was rotated during the previous frame
 			camera_angle += camera_speed * glfwGetTime(); //Compute an angle by which the object was rotated during the previous frame
 			camera_angle_y += camera_speed_x * glfwGetTime();
 			gravitation += gravity * glfwGetTime();
