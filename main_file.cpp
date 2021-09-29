@@ -1024,7 +1024,7 @@ void drawScene(GLFWwindow* window, float angle, float camera_angle, float camera
 		glDrawArrays(GL_TRIANGLES, 0, floorVertexCount); //Narysuj obiekt
 	}
 	//glUniformMatrix4fv(sp->u("M"), 1, false, glm::value_ptr(M));
-
+	int war = 0;
 	int i = 0;
 	while (klocki[i].czy_stop == 1) {
 		if (klocki[i].rodzaj == 2) drawT(angle, 0, gravity, i);
@@ -1034,15 +1034,25 @@ void drawScene(GLFWwindow* window, float angle, float camera_angle, float camera
 		if (klocki[i].rodzaj == 5) drawCos(angle, 0, gravity, i);
 		if (klocki[i].rodzaj == 6) drawCosReversed(angle, 0, gravity, i);
 		klocki[i].czy_istnieje = 1;
+		for (int j = 0; j < klocki[i].ilosc; j++) {
+			if (klocki[i].pos_y[j] >= h / 2) war = 1;
+		}
 		i++;
+		
 	}
+
+
 	//std::cout << klocki[i].rodzaj << std::endl;
-	if (klocki[i].rodzaj == 2 && klocki[i].czy_stop == 0) drawT(angle, 0, gravity, i);
-	if (klocki[i].rodzaj == 4 && klocki[i].czy_stop == 0) drawL(angle, 0, gravity, i);
-	if (klocki[i].rodzaj == 1 && klocki[i].czy_stop == 0) drawStraight(angle, 0, gravity, i);
-	if (klocki[i].rodzaj == 3 && klocki[i].czy_stop == 0) drawKostka(angle, 0, gravity, i);
-	if (klocki[i].rodzaj == 5) drawCos(angle, 0, gravity, i);
-	if (klocki[i].rodzaj == 6) drawCosReversed(angle, 0, gravity, i);
+
+
+
+
+	if (klocki[i].rodzaj == 2 && klocki[i].czy_stop == 0 && war  == 0) drawT(angle, 0, gravity, i);
+	if (klocki[i].rodzaj == 4 && klocki[i].czy_stop == 0 && war == 0) drawL(angle, 0, gravity, i);
+	if (klocki[i].rodzaj == 1 && klocki[i].czy_stop == 0 && war == 0) drawStraight(angle, 0, gravity, i);
+	if (klocki[i].rodzaj == 3 && klocki[i].czy_stop == 0 && war == 0) drawKostka(angle, 0, gravity, i);
+	if (klocki[i].rodzaj == 5 && klocki[i].czy_stop == 0 && war == 0) drawCos(angle, 0, gravity, i);
+	if (klocki[i].rodzaj == 6 && klocki[i].czy_stop == 0 && war == 0) drawCosReversed(angle, 0, gravity, i);
 	klocki[i].czy_istnieje = 1;	
 
     glDisableVertexAttribArray(sp->a("vertex"));  //Wyłącz przesyłanie danych do atrybutu vertex
