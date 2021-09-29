@@ -25,6 +25,7 @@ Place, Fifth Floor, Boston, MA  02110 - 1301  USA
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/vector_angle.hpp>
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
@@ -45,6 +46,8 @@ float camera_speed = 0;
 float camera_speed_x = 0;
 
 float gravity = -1.0f;
+
+int direction = 1;
 
 ShaderProgram *sp;
 
@@ -85,7 +88,7 @@ public:
 
 int spadajacyKlocek = 0;
 
-float odleglosc(float x1, float x2, float y1, float y2, float z1, float z2)
+float odleglosc(float x1, float x2, float y1, float y2, float z1, float z2) 
 {
 
 
@@ -100,6 +103,9 @@ int kolizja(klocek a, klocek b) {
 			//cout<<odleglosc(a.pos_x[i],b.pos_x[j],a.pos_y[i],b.pos_y[j],a.pos_z[i],b.pos_z[j])<<endl;
 			if (odleglosc(a.pos_x[i], b.pos_x[j], a.pos_y[i], b.pos_y[j], a.pos_z[i], b.pos_z[j]) < 1) {
 
+				cout << "KOLIZJA!" << endl << endl << endl;
+				cout << i << " " << j << endl;
+				cout << (odleglosc(a.pos_x[i], b.pos_x[j], a.pos_y[i], b.pos_y[j], a.pos_z[i], b.pos_z[j])) << endl;
 				return 1;
 			}
 		}
@@ -219,7 +225,15 @@ void drawStraight(float angle, float angleDelta, float gravity, int i) {
 	while (klocki[s].czy_istnieje == 1 && klocki[i].czy_stop == 0) {
 		if (s != i) {
 			if (kolizja(klocki[i], klocki[s]) == 1) {
-				//cout<<s<<" "<<i<<endl
+				//cout<<s<<" "<<i<<endl;
+				for (int m = 0; m < 6; m++) {
+					cout << klocki[i].pos_x[m] << " " << klocki[i].pos_y[m] << " " << klocki[i].pos_z[m] << endl;
+				}
+				cout << endl;
+				for (int m = 0; m < klocki[i].ilosc; m++) {
+					cout << klocki[s].pos_x[m] << " " << klocki[s].pos_y[m] << " " << klocki[s].pos_z[m] << endl;
+				}
+				cout << "KOLIZJA2!" << endl << endl << endl;
 				klocki[i].czy_stop = 1;
 
 			}
@@ -298,7 +312,15 @@ void drawL(float angle, float angleDelta, float gravity, int i) {
 	while (klocki[s].czy_istnieje == 1 && klocki[i].czy_stop == 0) {
 		if (s != i) {
 			if (kolizja(klocki[i], klocki[s]) == 1) {
-
+				//cout<<s<<" "<<i<<endl;
+				for (int m = 0; m < 6; m++) {
+					cout << klocki[i].pos_x[m] << " " << klocki[i].pos_y[m] << " " << klocki[i].pos_z[m] << endl;
+				}
+				cout << endl;
+				for (int m = 0; m < klocki[i].ilosc; m++) {
+					cout << klocki[s].pos_x[m] << " " << klocki[s].pos_y[m] << " " << klocki[s].pos_z[m] << endl;
+				}
+				cout << "KOLIZJA2!" << endl << endl << endl;
 				klocki[i].czy_stop = 1;
 
 			}
@@ -364,7 +386,15 @@ void drawT(float angle, float angleDelta, float gravity, int i) {
 	while (klocki[s].czy_istnieje == 1 && klocki[i].czy_stop == 0) {
 		if (s != i) {
 			if (kolizja(klocki[i], klocki[s]) == 1) {
-
+				//cout<<s<<" "<<i<<endl;
+				for (int m = 0; m < 6; m++) {
+					cout << klocki[i].pos_x[m] << " " << klocki[i].pos_y[m] << " " << klocki[i].pos_z[m] << endl;
+				}
+				cout << endl;
+				for (int m = 0; m < 6; m++) {
+					cout << klocki[s].pos_x[m] << " " << klocki[s].pos_y[m] << " " << klocki[s].pos_z[m] << endl;
+				}
+				cout << "KOLIZJA2!" << endl << endl << endl;
 				klocki[i].czy_stop = 1;
 
 			}
@@ -437,7 +467,15 @@ void drawKostka(float angle, float angleDelta, float gravity, int i) {
 	while (klocki[s].czy_istnieje == 1 && klocki[i].czy_stop == 0) {
 		if (s != i) {
 			if (kolizja(klocki[i], klocki[s]) == 1) {
-
+				//cout<<s<<" "<<i<<endl;
+				for (int m = 0; m < klocki[i].ilosc; m++) {
+					cout << klocki[i].pos_x[m] << " " << klocki[i].pos_y[m] << " " << klocki[i].pos_z[m] << endl;
+				}
+				cout << endl;
+				for (int m = 0; m < 6; m++) {
+					cout << klocki[s].pos_x[m] << " " << klocki[s].pos_y[m] << " " << klocki[s].pos_z[m] << endl;
+				}
+				cout << "KOLIZJA2!" << endl << endl << endl;
 				klocki[i].czy_stop = 1;
 
 			}
@@ -548,7 +586,15 @@ void drawCos(float angle, float angleDelta, float gravity, int i) {
 	while (klocki[s].czy_istnieje == 1 && klocki[i].czy_stop == 0) {
 		if (s != i) {
 			if (kolizja(klocki[i], klocki[s]) == 1) {
-
+				//cout<<s<<" "<<i<<endl;
+				for (int m = 0; m < klocki[i].ilosc; m++) {
+					cout << klocki[i].pos_x[m] << " " << klocki[i].pos_y[m] << " " << klocki[i].pos_z[m] << endl;
+				}
+				cout << endl;
+				for (int m = 0; m < 6; m++) {
+					cout << klocki[s].pos_x[m] << " " << klocki[s].pos_y[m] << " " << klocki[s].pos_z[m] << endl;
+				}
+				cout << "KOLIZJA2!" << endl << endl << endl;
 				klocki[i].czy_stop = 1;
 
 			}
@@ -613,7 +659,15 @@ void drawCosReversed(float angle, float angleDelta, float gravity, int i) {
 	while (klocki[s].czy_istnieje == 1 && klocki[i].czy_stop == 0) {
 		if (s != i) {
 			if (kolizja(klocki[i], klocki[s]) == 1) {
-
+				//cout<<s<<" "<<i<<endl;
+				for (int m = 0; m < klocki[i].ilosc; m++) {
+					cout << klocki[i].pos_x[m] << " " << klocki[i].pos_y[m] << " " << klocki[i].pos_z[m] << endl;
+				}
+				cout << endl;
+				for (int m = 0; m < 6; m++) {
+					cout << klocki[s].pos_x[m] << " " << klocki[s].pos_y[m] << " " << klocki[s].pos_z[m] << endl;
+				}
+				cout << "KOLIZJA2!" << endl << endl << endl;
 				klocki[i].czy_stop = 1;
 
 			}
@@ -649,23 +703,7 @@ void drawCosReversed(float angle, float angleDelta, float gravity, int i) {
 
 }
 
-//wyliczanie kiedy kamera jest pod podstawą
-float floorCamAngle(glm::mat4 M, glm::mat4 V)
-{
-	glm::vec4 x = V*M*(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f) - glm::vec4(0.0f, -h/2, 0.0f,  1.0f));
-	glm::vec4 y = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f) - V * M * glm::vec4(0.0f, -h / 2, 0.0f, 1.0f);
-	glm::vec4 z = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f) - V * M * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-
-	float X = sqrt(x.x * x.x + x.y * x.y + x.z * x.z);
-	float Y = sqrt(y.x * y.x + y.y * y.y + y.z * y.z);
-	float Z = sqrt(z.x * z.x + z.y * z.y + z.z * z.z);
-
-	float cosinus = (X * X + Y * Y - (Z * Z)) / 2 * X * Y;
-
-	return cosinus;
-}
-
-int granica_j(klocek klocek)
+int granica_xPlus(klocek klocek)
 {
 	int k = 0;
 	for (int i = 0; i < klocek.ilosc; i++)
@@ -675,7 +713,7 @@ int granica_j(klocek klocek)
 	return k;
 }
 
-int granica_l(klocek klocek)
+int granica_xMinus(klocek klocek)
 {
 	int k = 0;
 	for (int i = 0; i < klocek.ilosc; i++)
@@ -685,7 +723,7 @@ int granica_l(klocek klocek)
 	return k;
 }
 
-int granica_i(klocek klocek)
+int granica_zPlus(klocek klocek)
 {
 	int k = 0;
 	for (int i = 0; i < klocek.ilosc; i++)
@@ -695,7 +733,7 @@ int granica_i(klocek klocek)
 	return k;
 }
 
-int granica_k(klocek klocek)
+int granica_zMinus(klocek klocek)
 {
 	int k = 0;
 	for (int i = 0; i < klocek.ilosc; i++)
@@ -740,106 +778,133 @@ void keyCallback(GLFWwindow* window, int key,
 	if (action == GLFW_PRESS) {
 		if (key == GLFW_KEY_LEFT) {
 
-			if (granica_j(klocki[spadajacyKlocek]) == 0) {
-
-				klocek kloc_temp = klocki[spadajacyKlocek];
-				for (int k = 0; k<kloc_temp.ilosc;k++){
-					kloc_temp.pos_x[k]+=1.0f;
-				}
-				int j = 0;
-
-				while (klocki[j].czy_stop == 1){
-
-					if (kolizja(kloc_temp,klocki[j]) == 1){
-
-						//std::cout<<j<<std::endl;
-						for (int k = 0; k<kloc_temp.ilosc;k++){
-							kloc_temp.pos_x[k]-=1.0f;
-						}
-
-					}
-					j++;
-				}
-				klocki[spadajacyKlocek] = kloc_temp;
-
+			klocek kloc_temp = klocki[spadajacyKlocek];
+			for (int k = 0; k < kloc_temp.ilosc;k++) {
+				if(direction == 1 && granica_xPlus(klocki[spadajacyKlocek]) == 0)
+					kloc_temp.pos_x[k] += 1.0f;
+				if(direction == 3 && granica_xMinus(klocki[spadajacyKlocek]) == 0)
+					kloc_temp.pos_x[k] -= 1.0f;
+				if (direction == 2 && granica_zPlus(klocki[spadajacyKlocek]) == 0)
+					kloc_temp.pos_z[k] += 1.0f;
+				if (direction == 4 && granica_zMinus(klocki[spadajacyKlocek]) == 0)
+					kloc_temp.pos_z[k] -= 1.0f;
+					
 			}
+			int j = 0;
 
+			int check = 0;
 
+			while (klocki[j].czy_stop == 1) {
+
+				if (kolizja(kloc_temp, klocki[j]) == 1)
+				{
+					check++;
+					break;
+				}
+
+				j++;
+			}
+				
+			if(check == 0)
+				klocki[spadajacyKlocek] = kloc_temp;
 		}
+
 		if (key == GLFW_KEY_RIGHT) {
 
-			if (granica_l(klocki[spadajacyKlocek]) == 0) {
-				klocek kloc_temp = klocki[spadajacyKlocek];
-				for (int k = 0; k<kloc_temp.ilosc;k++){
-					kloc_temp.pos_x[k]-=1.0f;
-				}
-				int j = 0;
-
-				while (klocki[j].czy_stop == 1){
-
-					if (kolizja(kloc_temp,klocki[j]) == 1){
-
-						//std::cout<<j<<std::endl;
-						for (int k = 0; k<kloc_temp.ilosc;k++){
-							kloc_temp.pos_x[k]+=1.0f;
-						}
-
-					}
-					j++;
-				}
-				klocki[spadajacyKlocek] = kloc_temp;
+			klocek kloc_temp = klocki[spadajacyKlocek];
+			for (int k = 0; k < kloc_temp.ilosc;k++) {
+				if (direction == 1 && granica_xMinus(klocki[spadajacyKlocek]) == 0)
+					kloc_temp.pos_x[k] -= 1.0f;
+				if (direction == 3 && granica_xPlus(klocki[spadajacyKlocek]) == 0)
+					kloc_temp.pos_x[k] += 1.0f;
+				if (direction == 2 && granica_zMinus(klocki[spadajacyKlocek]) == 0)
+					kloc_temp.pos_z[k] -= 1.0f;
+				if (direction == 4 && granica_zPlus(klocki[spadajacyKlocek]) == 0)
+					kloc_temp.pos_z[k] += 1.0f;
 			}
+			int j = 0;
+
+			int check = 0;
+
+			while (klocki[j].czy_stop == 1) {
+
+				if (kolizja(kloc_temp, klocki[j]) == 1)
+				{
+					check++;
+					break;
+				}
+
+				j++;
+			}
+
+			if (check == 0)
+				klocki[spadajacyKlocek] = kloc_temp;
+		
 
 		}
 		if (key == GLFW_KEY_UP) {
-			if (granica_i(klocki[spadajacyKlocek]) == 0) {
-				klocek kloc_temp = klocki[spadajacyKlocek];
-				for (int k = 0; k<kloc_temp.ilosc;k++){
-					kloc_temp.pos_z[k]+=1.0f;
+
+			klocek kloc_temp = klocki[spadajacyKlocek];
+			for (int k = 0; k < kloc_temp.ilosc;k++) {
+				if (direction == 1 && granica_zPlus(klocki[spadajacyKlocek]) == 0)
+					kloc_temp.pos_z[k] += 1.0f;
+				if (direction == 3 && granica_zMinus(klocki[spadajacyKlocek]) == 0)
+					kloc_temp.pos_z[k] -= 1.0f;
+				if (direction == 2 && granica_xMinus(klocki[spadajacyKlocek]) == 0)
+					kloc_temp.pos_x[k] -= 1.0f;
+				if (direction == 4 && granica_xPlus(klocki[spadajacyKlocek]) == 0)
+					kloc_temp.pos_x[k] += 1.0f;
+			}
+			int j = 0;
+
+			int check = 0;
+
+			while (klocki[j].czy_stop == 1) {
+
+				if (kolizja(kloc_temp, klocki[j]) == 1)
+				{
+					check++;
+					break;
 				}
-				int j = 0;
 
-				while (klocki[j].czy_stop == 1){
+				j++;
+			}
 
-					if (kolizja(kloc_temp,klocki[j]) == 1){
-
-						//std::cout<<j<<std::endl;
-						for (int k = 0; k<kloc_temp.ilosc;k++){
-							kloc_temp.pos_z[k]-=1.0f;
-						}
-
-					}
-					j++;
-				}
+			if (check == 0)
 				klocki[spadajacyKlocek] = kloc_temp;
 
 
 		}
-
-	}
 		if (key == GLFW_KEY_DOWN) {
 
-			if (granica_k(klocki[spadajacyKlocek]) == 0) {
 				klocek kloc_temp = klocki[spadajacyKlocek];
-				for (int k = 0; k<kloc_temp.ilosc;k++){
-					kloc_temp.pos_z[k]-=1.0f;
+				for (int k = 0; k < kloc_temp.ilosc;k++) {
+					if (direction == 1 && granica_zMinus(klocki[spadajacyKlocek]) == 0)
+						kloc_temp.pos_z[k] -= 1.0f;
+					if (direction == 3 && granica_zPlus(klocki[spadajacyKlocek]) == 0)
+						kloc_temp.pos_z[k] += 1.0f;
+					if (direction == 2 && granica_xPlus(klocki[spadajacyKlocek]) == 0)
+						kloc_temp.pos_x[k] += 1.0f;
+					if (direction == 4 && granica_xMinus(klocki[spadajacyKlocek]) == 0)
+						kloc_temp.pos_x[k] -= 1.0f;
 				}
 				int j = 0;
 
-				while (klocki[j].czy_stop == 1){
+				int check = 0;
 
-					if (kolizja(kloc_temp,klocki[j]) == 1){
+				while (klocki[j].czy_stop == 1) {
 
-						//std::cout<<j<<std::endl;
-						for (int k = 0; k<kloc_temp.ilosc;k++){
-							kloc_temp.pos_z[k]+=1.0f;
-						}
-
+					if (kolizja(kloc_temp, klocki[j]) == 1)
+					{
+						check++;
+						break;
 					}
+
 					j++;
 				}
-				klocki[spadajacyKlocek] = kloc_temp;
-			}
+
+				if (check == 0)
+					klocki[spadajacyKlocek] = kloc_temp;
 
 		}
 		if (key == GLFW_KEY_A) camera_speed = PI / 2;
@@ -917,12 +982,19 @@ void drawScene(GLFWwindow* window, float angle, float camera_angle, float camera
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glm::mat4 V = glm::lookAt(glm::vec3(0.0f, 0.0f, -20.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)); //Compute view matrix
-	//glm::vec3 x_axis = (V * glm::vec4(1.0f, 0.0f, 0.0f, 0.0f)).xyz;
-//	glm::vec3 y_axis = (V * glm::vec4(0.0f, 1.0f, 0.0f, 0.0f)).xyz;
-	glm::vec3 x_axis = glm::vec3(1.0f, 0.0f, 0.0f);
-	glm::vec3 y_axis = glm::vec3(0.0f, 1.0f, 0.0f);
+	glm::vec3 x_axis = (V * glm::vec4(1.0f, 0.0f, 0.0f, 0.0f)).xyz;
+	glm::vec3 y_axis = (V * glm::vec4(0.0f, 1.0f, 0.0f, 0.0f)).xyz;
 	V = glm::rotate(V, camera_angle_x, x_axis);
 	V = glm::rotate(V, camera_angle, y_axis);
+	glm::mat4 Vi = glm::inverse(V);
+	glm::vec4 cam_pos = Vi * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+	//std::cout << cam_pos.x << ", " << cam_pos.y << ", " << cam_pos.z << std::endl;
+	float kat = glm::degrees(glm::orientedAngle(glm::normalize(glm::vec2(1.0f, 1.0f)), glm::normalize(glm::vec2(cam_pos.x, cam_pos.z))));
+	if (kat > -180.0f && kat <= -90.0f) direction = 1;
+	if (kat > -90.0f && kat <= 0.0f) direction = 2;
+	if (kat > 0.0f && kat <= 90.0f) direction = 3;
+	if (kat > 90.0f && kat <= 180.0f) direction = 4;
+	//std::cout << direction << std::endl;
 
     glm::mat4 P=glm::perspective(50.0f*PI/180.0f, aspectRatio, 0.01f, 50.0f); //Wylicz macierz rzutowania
 
@@ -948,7 +1020,7 @@ void drawScene(GLFWwindow* window, float angle, float camera_angle, float camera
 	glUniform1i(sp->u("textureMap0"), 0);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, tex1);
-	if (floorCamAngle(M, V) >= 0) {
+	if (cam_pos.y > -h/2) {
 		glDrawArrays(GL_TRIANGLES, 0, floorVertexCount); //Narysuj obiekt
 	}
 	//glUniformMatrix4fv(sp->u("M"), 1, false, glm::value_ptr(M));
@@ -962,7 +1034,6 @@ void drawScene(GLFWwindow* window, float angle, float camera_angle, float camera
 		if (klocki[i].rodzaj == 5) drawCos(angle, 0, gravity, i);
 		if (klocki[i].rodzaj == 6) drawCosReversed(angle, 0, gravity, i);
 		klocki[i].czy_istnieje = 1;
-		//std::cout<<klocki[i].rodzaj <<std::endl;
 		i++;
 	}
 	//std::cout << klocki[i].rodzaj << std::endl;
@@ -972,7 +1043,7 @@ void drawScene(GLFWwindow* window, float angle, float camera_angle, float camera
 	if (klocki[i].rodzaj == 3 && klocki[i].czy_stop == 0) drawKostka(angle, 0, gravity, i);
 	if (klocki[i].rodzaj == 5) drawCos(angle, 0, gravity, i);
 	if (klocki[i].rodzaj == 6) drawCosReversed(angle, 0, gravity, i);
-	klocki[i].czy_istnieje = 1;
+	klocki[i].czy_istnieje = 1;	
 
     glDisableVertexAttribArray(sp->a("vertex"));  //Wyłącz przesyłanie danych do atrybutu vertex
 	glDisableVertexAttribArray(sp->a("normal"));  //Wyłącz przesyłanie danych do atrybutu normal
@@ -1025,13 +1096,14 @@ int main(void)
 	glfwSetTime(0); //clear internal timer
 	while (!glfwWindowShouldClose(window)) //As long as the window shouldnt be closed yet...
 	{
-		angle = speed; // //Compute an angle by which the object was rotated during the previous frame
+		angle = speed; // //Compute an angle by which the object was rotated during the previous frame		
 		camera_angle += camera_speed * glfwGetTime(); //Compute an angle by which the object was rotated during the previous frame
 		camera_angle_y += camera_speed_x * glfwGetTime();
 		gravitation += gravity * glfwGetTime();
 		if (klocki[spadajacyKlocek].czy_stop == 1)
 		{
 			spadajacyKlocek++;
+			std::cout << spadajacyKlocek << std::endl;
 		}
 		glfwSetTime(0); //clear internal timer
 		drawScene(window, angle, camera_angle, camera_angle_y, gravitation); //Execute drawing procedure
