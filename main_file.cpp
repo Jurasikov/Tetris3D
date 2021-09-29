@@ -100,7 +100,6 @@ int kolizja(klocek a, klocek b) {
 	using namespace std;
 	for (int i = 0; i < a.ilosc;i++) {
 		for (int j = 0; j < b.ilosc; j++) {
-			//cout<<odleglosc(a.pos_x[i],b.pos_x[j],a.pos_y[i],b.pos_y[j],a.pos_z[i],b.pos_z[j])<<endl;
 			if (odleglosc(a.pos_x[i], b.pos_x[j], a.pos_y[i], b.pos_y[j], a.pos_z[i], b.pos_z[j]) < 1) {
 
 				cout << "KOLIZJA!" << endl << endl << endl;
@@ -114,14 +113,10 @@ int kolizja(klocek a, klocek b) {
 }
 
 glm::mat4 drawLeft(glm::mat4 Mt, float angleDelta, int i, int j) {
-	//Cube model matrix is composed of: rotation, to choose place of the cube on the edge of the torus
 	glm::mat4 Mk = glm::rotate(Mt, glm::radians(angleDelta), glm::vec3(0.0f, 0.0f, 1.0f));
-	//...translation, to move the cube to the edge...
 	Mk = glm::translate(Mk, glm::vec3(2.0f, 0.0f, 0.0f));
-	//...and scaling to reduce the size of the cube
-	//Mk = glm::scale(Mk, glm::vec3(0.1f, 0.1f, 0.1f));
 	glUniformMatrix4fv(sp->u("M"), 1, false, glm::value_ptr(Mk));
-	glDrawArrays(GL_TRIANGLES, 0, cubeVertexCount); //Narysuj obiekt
+	glDrawArrays(GL_TRIANGLES, 0, cubeVertexCount); 
 	klocki[i].pos_x[j] = Mk[3].x;
 	klocki[i].pos_y[j] = Mk[3].y;
 	klocki[i].pos_z[j] = Mk[3].z;
@@ -129,12 +124,8 @@ glm::mat4 drawLeft(glm::mat4 Mt, float angleDelta, int i, int j) {
 }
 
 glm::mat4 drawRight(glm::mat4 Mt, float angleDelta, int i, int j) {
-	//Cube model matrix is composed of: rotation, to choose place of the cube on the edge of the torus
 	glm::mat4 Mk = glm::rotate(Mt, glm::radians(angleDelta), glm::vec3(0.0f, 0.0f, 1.0f));
-	//...translation, to move the cube to the edge...
 	Mk = glm::translate(Mk, glm::vec3(-2.0f, 0.0f, 0.0f));
-	//...and scaling to reduce the size of the cube
-	//Mk = glm::scale(Mk, glm::vec3(0.1f, 0.1f, 0.1f));
 	glUniformMatrix4fv(sp->u("M"), 1, false, glm::value_ptr(Mk));
 	glDrawArrays(GL_TRIANGLES, 0, cubeVertexCount);
 	klocki[i].pos_x[j] = Mk[3].x;
@@ -144,12 +135,8 @@ glm::mat4 drawRight(glm::mat4 Mt, float angleDelta, int i, int j) {
 }
 
 glm::mat4 drawTop(glm::mat4 Mt, float angleDelta, int i, int j) {
-	//Cube model matrix is composed of: rotation, to choose place of the cube on the edge of the torus
 	glm::mat4 Mk = glm::rotate(Mt, glm::radians(angleDelta), glm::vec3(0.0f, 0.0f, 1.0f));
-	//...translation, to move the cube to the edge...
 	Mk = glm::translate(Mk, glm::vec3(0.0f, 2.0f, 0.0f));
-	//...and scaling to reduce the size of the cube
-	//Mk = glm::scale(Mk, glm::vec3(0.1f, 0.1f, 0.1f));
 	glUniformMatrix4fv(sp->u("M"), 1, false, glm::value_ptr(Mk));
 	glDrawArrays(GL_TRIANGLES, 0, cubeVertexCount);
 	klocki[i].pos_x[j] = Mk[3].x;
@@ -160,12 +147,8 @@ glm::mat4 drawTop(glm::mat4 Mt, float angleDelta, int i, int j) {
 
 
 glm::mat4 drawBottom(glm::mat4 Mt, float angleDelta, int i, int j) {
-	//Cube model matrix is composed of: rotation, to choose place of the cube on the edge of the torus
 	glm::mat4 Mk = glm::rotate(Mt, glm::radians(angleDelta), glm::vec3(0.0f, 0.0f, 1.0f));
-	//...translation, to move the cube to the edge...
 	Mk = glm::translate(Mk, glm::vec3(0.0f, -2.0f, 0.0f));
-	//...and scaling to reduce the size of the cube
-	//Mk = glm::scale(Mk, glm::vec3(0.1f, 0.1f, 0.1f));
 	glUniformMatrix4fv(sp->u("M"), 1, false, glm::value_ptr(Mk));
 	glDrawArrays(GL_TRIANGLES, 0, cubeVertexCount);
 	klocki[i].pos_x[j] = Mk[3].x;
@@ -175,12 +158,8 @@ glm::mat4 drawBottom(glm::mat4 Mt, float angleDelta, int i, int j) {
 }
 
 glm::mat4 drawBehind(glm::mat4 Mt, float angleDelta, int i, int j) {
-	//Cube model matrix is composed of: rotation, to choose place of the cube on the edge of the torus
 	glm::mat4 Mk = glm::rotate(Mt, glm::radians(angleDelta), glm::vec3(0.0f, 0.0f, 1.0f));
-	//...translation, to move the cube to the edge...
 	Mk = glm::translate(Mk, glm::vec3(0.0f, 0.0f, 2.0f));
-	//...and scaling to reduce the size of the cube
-	//Mk = glm::scale(Mk, glm::vec3(0.1f, 0.1f, 0.1f));
 	glUniformMatrix4fv(sp->u("M"), 1, false, glm::value_ptr(Mk));
 	glDrawArrays(GL_TRIANGLES, 0, cubeVertexCount);
 	klocki[i].pos_x[j] = Mk[3].x;
@@ -191,12 +170,8 @@ glm::mat4 drawBehind(glm::mat4 Mt, float angleDelta, int i, int j) {
 }
 
 glm::mat4 drawInfront(glm::mat4 Mt, float angleDelta, int i, int j) {
-	//Cube model matrix is composed of: rotation, to choose place of the cube on the edge of the torus
 	glm::mat4 Mk = glm::rotate(Mt, glm::radians(angleDelta), glm::vec3(0.0f, 0.0f, 1.0f));
-	//...translation, to move the cube to the edge...
 	Mk = glm::translate(Mk, glm::vec3(0.0f, 0.0f, -2.0f));
-	//...and scaling to reduce the size of the cube
-	//Mk = glm::scale(Mk, glm::vec3(0.1f, 0.1f, 0.1f));
 	glUniformMatrix4fv(sp->u("M"), 1, false, glm::value_ptr(Mk));
 	glDrawArrays(GL_TRIANGLES, 0, cubeVertexCount);
 	klocki[i].pos_x[j] = Mk[3].x;
