@@ -4,13 +4,11 @@ rozprowadzać dalej i / lub modyfikować na warunkach Powszechnej
 Licencji Publicznej GNU, wydanej przez Fundację Wolnego
 Oprogramowania - według wersji 2 tej Licencji lub(według twojego
 wyboru) którejś z późniejszych wersji.
-
 Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on
 użyteczny - jednak BEZ JAKIEJKOLWIEK GWARANCJI, nawet domyślnej
 gwarancji PRZYDATNOŚCI HANDLOWEJ albo PRZYDATNOŚCI DO OKREŚLONYCH
 ZASTOSOWAŃ.W celu uzyskania bliższych informacji sięgnij do
 Powszechnej Licencji Publicznej GNU.
-
 Z pewnością wraz z niniejszym programem otrzymałeś też egzemplarz
 Powszechnej Licencji Publicznej GNU(GNU General Public License);
 jeśli nie - napisz do Free Software Foundation, Inc., 59 Temple
@@ -49,7 +47,7 @@ float gravity = -1.0f;
 
 int direction = 1;
 
-ShaderProgram *sp;
+ShaderProgram* sp;
 
 //uchwyty na tekstury
 GLuint tex0;
@@ -78,7 +76,7 @@ public:
 	void zapelnij() {
 		for (int i = 0; i < 30; i++) {
 			pos_x[i] = 0.0f;
-			pos_y[i] = h/2;
+			pos_y[i] = h / 2;
 			pos_z[i] = 0.0f;
 			rodzaj = 1 + (std::rand() % (6));
 
@@ -88,7 +86,7 @@ public:
 
 int spadajacyKlocek = 0;
 
-float odleglosc(float x1, float x2, float y1, float y2, float z1, float z2) 
+float odleglosc(float x1, float x2, float y1, float y2, float z1, float z2)
 {
 
 
@@ -116,7 +114,7 @@ glm::mat4 drawLeft(glm::mat4 Mt, float angleDelta, int i, int j) {
 	glm::mat4 Mk = glm::rotate(Mt, glm::radians(angleDelta), glm::vec3(0.0f, 0.0f, 1.0f));
 	Mk = glm::translate(Mk, glm::vec3(2.0f, 0.0f, 0.0f));
 	glUniformMatrix4fv(sp->u("M"), 1, false, glm::value_ptr(Mk));
-	glDrawArrays(GL_TRIANGLES, 0, cubeVertexCount); 
+	glDrawArrays(GL_TRIANGLES, 0, cubeVertexCount); //Narysuj obiekt
 	klocki[i].pos_x[j] = Mk[3].x;
 	klocki[i].pos_y[j] = Mk[3].y;
 	klocki[i].pos_z[j] = Mk[3].z;
@@ -200,7 +198,6 @@ void drawStraight(float angle, float angleDelta, float gravity, int i) {
 	while (klocki[s].czy_istnieje == 1 && klocki[i].czy_stop == 0) {
 		if (s != i) {
 			if (kolizja(klocki[i], klocki[s]) == 1) {
-				//cout<<s<<" "<<i<<endl;
 				for (int m = 0; m < 6; m++) {
 					cout << klocki[i].pos_x[m] << " " << klocki[i].pos_y[m] << " " << klocki[i].pos_z[m] << endl;
 				}
@@ -213,7 +210,6 @@ void drawStraight(float angle, float angleDelta, float gravity, int i) {
 
 			}
 		}
-		//cout<<s<<endl;
 		s++;
 	}
 
@@ -276,7 +272,7 @@ void drawL(float angle, float angleDelta, float gravity, int i) {
 	for (int z = 0;z < klocki[i].ilosc;z++) {
 
 
-		if (klocki[i].pos_y[z] - 0.5f <= -h/2) {
+		if (klocki[i].pos_y[z] - 0.5f <= -h / 2) {
 
 			klocki[i].czy_stop = 1;
 		}
@@ -287,7 +283,6 @@ void drawL(float angle, float angleDelta, float gravity, int i) {
 	while (klocki[s].czy_istnieje == 1 && klocki[i].czy_stop == 0) {
 		if (s != i) {
 			if (kolizja(klocki[i], klocki[s]) == 1) {
-				//cout<<s<<" "<<i<<endl;
 				for (int m = 0; m < 6; m++) {
 					cout << klocki[i].pos_x[m] << " " << klocki[i].pos_y[m] << " " << klocki[i].pos_z[m] << endl;
 				}
@@ -300,7 +295,6 @@ void drawL(float angle, float angleDelta, float gravity, int i) {
 
 			}
 		}
-		//cout<<s<<endl;
 		s++;
 	}
 	glm::mat4 Mt1 = glm::translate(I, glm::vec3(klocki[i].pos_x[0], pos, klocki[i].pos_z[0]));
@@ -361,7 +355,6 @@ void drawT(float angle, float angleDelta, float gravity, int i) {
 	while (klocki[s].czy_istnieje == 1 && klocki[i].czy_stop == 0) {
 		if (s != i) {
 			if (kolizja(klocki[i], klocki[s]) == 1) {
-				//cout<<s<<" "<<i<<endl;
 				for (int m = 0; m < 6; m++) {
 					cout << klocki[i].pos_x[m] << " " << klocki[i].pos_y[m] << " " << klocki[i].pos_z[m] << endl;
 				}
@@ -374,7 +367,6 @@ void drawT(float angle, float angleDelta, float gravity, int i) {
 
 			}
 		}
-		//cout<<s<<endl;
 		s++;
 	}
 
@@ -409,10 +401,6 @@ void drawT(float angle, float angleDelta, float gravity, int i) {
 	glm::mat4 Mk4 = drawBehind(Mk, angleDelta, i, j);
 	j++;
 	glm::mat4 Mk5 = drawInfront(Mk, angleDelta, i, j);
-
-	//cout << Mk2[3].x << " " << Mk2[3].y<<" "<<Mk2[3].z<<endl; //pozycja y
-
-
 }
 
 void drawKostka(float angle, float angleDelta, float gravity, int i) {
@@ -455,7 +443,6 @@ void drawKostka(float angle, float angleDelta, float gravity, int i) {
 
 			}
 		}
-		//cout<<s<<endl;
 		s++;
 	}
 	glm::mat4 Mt1 = glm::translate(I, glm::vec3(klocki[i].pos_x[0], pos, klocki[i].pos_z[0]));
@@ -561,7 +548,6 @@ void drawCos(float angle, float angleDelta, float gravity, int i) {
 	while (klocki[s].czy_istnieje == 1 && klocki[i].czy_stop == 0) {
 		if (s != i) {
 			if (kolizja(klocki[i], klocki[s]) == 1) {
-				//cout<<s<<" "<<i<<endl;
 				for (int m = 0; m < klocki[i].ilosc; m++) {
 					cout << klocki[i].pos_x[m] << " " << klocki[i].pos_y[m] << " " << klocki[i].pos_z[m] << endl;
 				}
@@ -574,7 +560,6 @@ void drawCos(float angle, float angleDelta, float gravity, int i) {
 
 			}
 		}
-		//cout<<s<<endl;
 		s++;
 	}
 	glm::mat4 Mt1 = glm::translate(I, glm::vec3(klocki[i].pos_x[0], pos, klocki[i].pos_z[0]));
@@ -634,7 +619,6 @@ void drawCosReversed(float angle, float angleDelta, float gravity, int i) {
 	while (klocki[s].czy_istnieje == 1 && klocki[i].czy_stop == 0) {
 		if (s != i) {
 			if (kolizja(klocki[i], klocki[s]) == 1) {
-				//cout<<s<<" "<<i<<endl;
 				for (int m = 0; m < klocki[i].ilosc; m++) {
 					cout << klocki[i].pos_x[m] << " " << klocki[i].pos_y[m] << " " << klocki[i].pos_z[m] << endl;
 				}
@@ -693,7 +677,7 @@ int granica_xMinus(klocek klocek)
 	int k = 0;
 	for (int i = 0; i < klocek.ilosc; i++)
 	{
-		if (klocek.pos_x[i] <= -a/2 + 0.5f) k++;
+		if (klocek.pos_x[i] <= -a / 2 + 0.5f) k++;
 	}
 	return k;
 }
@@ -713,7 +697,7 @@ int granica_zMinus(klocek klocek)
 	int k = 0;
 	for (int i = 0; i < klocek.ilosc; i++)
 	{
-		if (klocek.pos_z[i] <= - a / 2 + 0.5f) k++;
+		if (klocek.pos_z[i] <= -a / 2 + 0.5f) k++;
 	}
 	return k;
 }
@@ -755,15 +739,15 @@ void keyCallback(GLFWwindow* window, int key,
 
 			klocek kloc_temp = klocki[spadajacyKlocek];
 			for (int k = 0; k < kloc_temp.ilosc;k++) {
-				if(direction == 1 && granica_xPlus(klocki[spadajacyKlocek]) == 0)
+				if (direction == 1 && granica_xPlus(klocki[spadajacyKlocek]) == 0)
 					kloc_temp.pos_x[k] += 1.0f;
-				if(direction == 3 && granica_xMinus(klocki[spadajacyKlocek]) == 0)
+				if (direction == 3 && granica_xMinus(klocki[spadajacyKlocek]) == 0)
 					kloc_temp.pos_x[k] -= 1.0f;
 				if (direction == 2 && granica_zPlus(klocki[spadajacyKlocek]) == 0)
 					kloc_temp.pos_z[k] += 1.0f;
 				if (direction == 4 && granica_zMinus(klocki[spadajacyKlocek]) == 0)
 					kloc_temp.pos_z[k] -= 1.0f;
-					
+
 			}
 			int j = 0;
 
@@ -779,8 +763,8 @@ void keyCallback(GLFWwindow* window, int key,
 
 				j++;
 			}
-				
-			if(check == 0)
+
+			if (check == 0)
 				klocki[spadajacyKlocek] = kloc_temp;
 		}
 
@@ -814,7 +798,7 @@ void keyCallback(GLFWwindow* window, int key,
 
 			if (check == 0)
 				klocki[spadajacyKlocek] = kloc_temp;
-		
+
 
 		}
 		if (key == GLFW_KEY_UP) {
@@ -852,34 +836,34 @@ void keyCallback(GLFWwindow* window, int key,
 		}
 		if (key == GLFW_KEY_DOWN) {
 
-				klocek kloc_temp = klocki[spadajacyKlocek];
-				for (int k = 0; k < kloc_temp.ilosc;k++) {
-					if (direction == 1 && granica_zMinus(klocki[spadajacyKlocek]) == 0)
-						kloc_temp.pos_z[k] -= 1.0f;
-					if (direction == 3 && granica_zPlus(klocki[spadajacyKlocek]) == 0)
-						kloc_temp.pos_z[k] += 1.0f;
-					if (direction == 2 && granica_xPlus(klocki[spadajacyKlocek]) == 0)
-						kloc_temp.pos_x[k] += 1.0f;
-					if (direction == 4 && granica_xMinus(klocki[spadajacyKlocek]) == 0)
-						kloc_temp.pos_x[k] -= 1.0f;
-				}
-				int j = 0;
+			klocek kloc_temp = klocki[spadajacyKlocek];
+			for (int k = 0; k < kloc_temp.ilosc;k++) {
+				if (direction == 1 && granica_zMinus(klocki[spadajacyKlocek]) == 0)
+					kloc_temp.pos_z[k] -= 1.0f;
+				if (direction == 3 && granica_zPlus(klocki[spadajacyKlocek]) == 0)
+					kloc_temp.pos_z[k] += 1.0f;
+				if (direction == 2 && granica_xPlus(klocki[spadajacyKlocek]) == 0)
+					kloc_temp.pos_x[k] += 1.0f;
+				if (direction == 4 && granica_xMinus(klocki[spadajacyKlocek]) == 0)
+					kloc_temp.pos_x[k] -= 1.0f;
+			}
+			int j = 0;
 
-				int check = 0;
+			int check = 0;
 
-				while (klocki[j].czy_stop == 1) {
+			while (klocki[j].czy_stop == 1) {
 
-					if (kolizja(kloc_temp, klocki[j]) == 1)
-					{
-						check++;
-						break;
-					}
-
-					j++;
+				if (kolizja(kloc_temp, klocki[j]) == 1)
+				{
+					check++;
+					break;
 				}
 
-				if (check == 0)
-					klocki[spadajacyKlocek] = kloc_temp;
+				j++;
+			}
+
+			if (check == 0)
+				klocki[spadajacyKlocek] = kloc_temp;
 
 		}
 		if (key == GLFW_KEY_A) camera_speed = PI / 2;
@@ -916,21 +900,21 @@ void keyCallback(GLFWwindow* window, int key,
 	}
 }
 
-void windowResizeCallback(GLFWwindow* window,int width,int height) {
-    if (height==0) return;
-    aspectRatio=(float)width/(float)height;
-    glViewport(0,0,width,height);
+void windowResizeCallback(GLFWwindow* window, int width, int height) {
+	if (height == 0) return;
+	aspectRatio = (float)width / (float)height;
+	glViewport(0, 0, width, height);
 }
 
 //Procedura inicjująca
 void initOpenGLProgram(GLFWwindow* window) {
 	//************Tutaj umieszczaj kod, który należy wykonać raz, na początku programu************
-	glClearColor(0.5,0.5,0.5,1);
+	glClearColor(0.5, 0.5, 0.5, 1);
 	glEnable(GL_DEPTH_TEST);
-	glfwSetWindowSizeCallback(window,windowResizeCallback);
-	glfwSetKeyCallback(window,keyCallback);
+	glfwSetWindowSizeCallback(window, windowResizeCallback);
+	glfwSetKeyCallback(window, keyCallback);
 
-	sp=new ShaderProgram("v_simplest.glsl",NULL,"f_simplest.glsl");
+	sp = new ShaderProgram("v_simplest.glsl", NULL, "f_simplest.glsl");
 	//tex0 = readTexture("tex0.png");
 	tex1 = readTexture("tex1.png");
 	tex2 = readTexture("tex2.png");
@@ -943,9 +927,9 @@ void initOpenGLProgram(GLFWwindow* window) {
 
 //Zwolnienie zasobów zajętych przez program
 void freeOpenGLProgram(GLFWwindow* window) {
-    //************Tutaj umieszczaj kod, który należy wykonać po zakończeniu pętli głównej************
+	//************Tutaj umieszczaj kod, który należy wykonać po zakończeniu pętli głównej************
 
-    delete sp;
+	delete sp;
 }
 
 
@@ -956,34 +940,32 @@ void drawScene(GLFWwindow* window, float angle, float camera_angle, float camera
 	//************Tutaj umieszczaj kod rysujący obraz******************l
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	glm::mat4 V = glm::lookAt(glm::vec3(0.0f, 0.0f, -20.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)); //Compute view matrix
+	glm::mat4 V = glm::lookAt(glm::vec3(0.0f, 0.0f, 20.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)); //Compute view matrix
 	glm::vec3 x_axis = (V * glm::vec4(1.0f, 0.0f, 0.0f, 0.0f)).xyz;
 	glm::vec3 y_axis = (V * glm::vec4(0.0f, 1.0f, 0.0f, 0.0f)).xyz;
 	V = glm::rotate(V, camera_angle_x, x_axis);
 	V = glm::rotate(V, camera_angle, y_axis);
 	glm::mat4 Vi = glm::inverse(V);
 	glm::vec4 cam_pos = Vi * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-	//std::cout << cam_pos.x << ", " << cam_pos.y << ", " << cam_pos.z << std::endl;
 	float kat = glm::degrees(glm::orientedAngle(glm::normalize(glm::vec2(1.0f, 1.0f)), glm::normalize(glm::vec2(cam_pos.x, cam_pos.z))));
 	if (kat > -180.0f && kat <= -90.0f) direction = 1;
 	if (kat > -90.0f && kat <= 0.0f) direction = 2;
 	if (kat > 0.0f && kat <= 90.0f) direction = 3;
 	if (kat > 90.0f && kat <= 180.0f) direction = 4;
-	//std::cout << direction << std::endl;
 
-    glm::mat4 P=glm::perspective(50.0f*PI/180.0f, aspectRatio, 0.01f, 50.0f); //Wylicz macierz rzutowania
+	glm::mat4 P = glm::perspective(50.0f * PI / 180.0f, aspectRatio, 0.01f, 50.0f); //Wylicz macierz rzutowania
 
-    glm::mat4 M=glm::mat4(1.0f);
+	glm::mat4 M = glm::mat4(1.0f);
 
-    sp->use();//Aktywacja programu cieniującego
-    //Przeslij parametry programu cieniującego do karty graficznej
-    glUniformMatrix4fv(sp->u("P"),1,false,glm::value_ptr(P));
-    glUniformMatrix4fv(sp->u("V"),1,false,glm::value_ptr(V));
-    glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
+	sp->use();//Aktywacja programu cieniującego
+	//Przeslij parametry programu cieniującego do karty graficznej
+	glUniformMatrix4fv(sp->u("P"), 1, false, glm::value_ptr(P));
+	glUniformMatrix4fv(sp->u("V"), 1, false, glm::value_ptr(V));
+	glUniformMatrix4fv(sp->u("M"), 1, false, glm::value_ptr(M));
 	glUniform4fv(sp->u("lp"), 1, glm::value_ptr(lp));
 	glUniform4fv(sp->u("lp1"), 1, glm::value_ptr(lp1));
 
-    glEnableVertexAttribArray(sp->a("vertex"));  //Włącz przesyłanie danych do atrybutu vertex
+	glEnableVertexAttribArray(sp->a("vertex"));  //Włącz przesyłanie danych do atrybutu vertex
 	glEnableVertexAttribArray(sp->a("normal"));  //Włącz przesyłanie danych do atrybutu normal
 	glEnableVertexAttribArray(sp->a("texCoord0"));
 
@@ -995,7 +977,7 @@ void drawScene(GLFWwindow* window, float angle, float camera_angle, float camera
 	glUniform1i(sp->u("textureMap0"), 0);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, tex1);
-	if (cam_pos.y > -h/2) {
+	if (cam_pos.y > -h / 2) {
 		glDrawArrays(GL_TRIANGLES, 0, floorVertexCount); //Narysuj obiekt
 	}
 	//glUniformMatrix4fv(sp->u("M"), 1, false, glm::value_ptr(M));
@@ -1013,7 +995,7 @@ void drawScene(GLFWwindow* window, float angle, float camera_angle, float camera
 			if (klocki[i].pos_y[j] >= h / 2) war = 1;
 		}
 		i++;
-		
+
 	}
 
 
@@ -1022,19 +1004,19 @@ void drawScene(GLFWwindow* window, float angle, float camera_angle, float camera
 
 
 
-	if (klocki[i].rodzaj == 2 && klocki[i].czy_stop == 0 && war  == 0) drawT(angle, 0, gravity, i);
+	if (klocki[i].rodzaj == 2 && klocki[i].czy_stop == 0 && war == 0) drawT(angle, 0, gravity, i);
 	if (klocki[i].rodzaj == 4 && klocki[i].czy_stop == 0 && war == 0) drawL(angle, 0, gravity, i);
 	if (klocki[i].rodzaj == 1 && klocki[i].czy_stop == 0 && war == 0) drawStraight(angle, 0, gravity, i);
 	if (klocki[i].rodzaj == 3 && klocki[i].czy_stop == 0 && war == 0) drawKostka(angle, 0, gravity, i);
 	if (klocki[i].rodzaj == 5 && klocki[i].czy_stop == 0 && war == 0) drawCos(angle, 0, gravity, i);
 	if (klocki[i].rodzaj == 6 && klocki[i].czy_stop == 0 && war == 0) drawCosReversed(angle, 0, gravity, i);
-	klocki[i].czy_istnieje = 1;	
+	klocki[i].czy_istnieje = 1;
 
-    glDisableVertexAttribArray(sp->a("vertex"));  //Wyłącz przesyłanie danych do atrybutu vertex
+	glDisableVertexAttribArray(sp->a("vertex"));  //Wyłącz przesyłanie danych do atrybutu vertex
 	glDisableVertexAttribArray(sp->a("normal"));  //Wyłącz przesyłanie danych do atrybutu normal
 	glDisableVertexAttribArray(sp->a("texCoord0"));
 
-    glfwSwapBuffers(window); //Przerzuć tylny bufor na przedni
+	glfwSwapBuffers(window); //Przerzuć tylny bufor na przedni
 }
 
 
@@ -1088,7 +1070,6 @@ int main(void)
 		if (klocki[spadajacyKlocek].czy_stop == 1)
 		{
 			spadajacyKlocek++;
-			std::cout << spadajacyKlocek << std::endl;
 		}
 		glfwSetTime(0); //clear internal timer
 		drawScene(window, angle, camera_angle, camera_angle_y, gravitation); //Execute drawing procedure
